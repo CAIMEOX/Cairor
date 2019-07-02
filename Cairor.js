@@ -1,3 +1,5 @@
+var move = true;
+var forward_ = 4;
 function window(width,height,text,onClick){
   var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
   ctx.runOnUiThread(new java.lang.Runnable(){
@@ -26,7 +28,8 @@ function window(width,height,text,onClick){
         var screen_height=ctx.getWindowManager().getDefaultDisplay().getHeight();
         _btn.setOnTouchListener(new android.view.View.OnTouchListener(){
           onTouch:function(v,e){
-            switch(e.getAction()){
+            if(move){
+                switch(e.getAction()){
               case 0:
                 offsetX=e.getX();
                 offsetY=e.getY();
@@ -42,6 +45,7 @@ function window(width,height,text,onClick){
               break;
               case 1:
               break
+            }
             }
             return false;
             return true;
@@ -60,18 +64,26 @@ function getServer(){
 }
 function forward(n){
     var xaw = (getYaw() % 360) * Math.PI / 180;
-    xv=-Math.sin(xaw)*n;
-    zv=Math.cos(xaw)*n;
+    xv=-Math.sin(xaw) * n;
+    zv=Math.cos(xaw) * n;
     Entity.setPosition(getPlayerEnt(),getPlayerX() + xv,getPlayerY(),getPlayerZ() + zv)
 }
 
 var tp = false;
-function useItem(x, y, z){
+function useItem(x, y, z, id, id2, side){
     if(tp){
-        setPosition(getPlayerEnt(),x,y+1,z);
+        setPosition(getPlayerEnt(),x,y+3,z);
     }
 }
-
+//Long Jump
+window(200,200,"LJ",function(){
+    var xaw = (getYaw() % 360) * Math.PI / 180;
+    xv=-Math.sin(xaw)
+    zv=Math.cos(xaw)
+    setVelX(getPlayerEnt(),xv);
+    setVelY(getPlayerEnt(),0.5);
+    setVelZ(getPlayerEnt(),zv);
+});
 //DigSpeed
 window(200,200,"DS",function(){
     Entity.addEffect(getPlayerEnt(),MobEffect.digSpeed,20 * 10000,50,false,false);
@@ -84,8 +96,35 @@ window(200,200,"FW",function(){
 window(200,200,"UP",function(){
     Entity.setPosition(getPlayerEnt(),getPlayerX(),getPlayerY() + 10,getPlayerZ());
 });
+//Move down
+window(200,200,"DN",function(){
+    Entity.setPosition(getPlayerEnt(),getPlayerX(),getPlayerY() - 10,getPlayerZ());
+})
 //Air Jump
 window(200,200,"JP",function(){
     setVelY(getPlayerEnt(), 0.8);
 });
-print("Cairor Hack, Powered by CAIMEO.")
+//Tap Teleport
+/*window(200,200,"TP",function(){
+    if(tp){
+        clientMessage("Tap Tp off");
+        tp = false;
+    }else{
+        clientMessage("Tap Tp on");
+        tp = true;
+    }
+});*/
+
+function newLevel(){
+    print("Cairor Hack, Powered by CAIMEO.");
+}
+
+window(200,200,"LK",function(){
+    if(move){
+        move = false;
+        clientMessage("GUI Locked!");
+    }else{
+        move = true;
+        clientMessage("GUI Unlocked!")
+    }
+});
