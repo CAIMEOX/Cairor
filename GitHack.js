@@ -125,6 +125,7 @@ FloatButton(HIDDEN_BTN, shell, 10, 10, 200, 200, function(){
     MAIN_GUI.dismiss();
     SHOW = false;
   }else if(!SHOW){
-    MAIN_GUI.showAtLocation(Context.getWindow().getDecorView(), android.view.Gravity.CENTER, x, y);
+    MAIN_GUI.showAtLocation(Context.getWindow().getDecorView(), android.view.Gravity.CENTER, 0, 0);
     SHOW = true;
+  }
 })
