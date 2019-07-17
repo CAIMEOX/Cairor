@@ -51,18 +51,19 @@ function bitmapScale(bitmap, x, y) {
 }
 
 
-//MAIN MainActivity
+//GUI
 
+//MAIN MainActivity
 function FloatButton(P_window, img, x, y, width, height, callback) {
 	Context.runOnUiThread(new java.lang.Runnable() {
 		run: function() {
 			//PopupWindow:
       try{
-			P_window = new PopupWindow();
+			//P_window = new PopupWindow();
       var Layout = new RelativeLayout(Context)
       var btn = new ImageView(Context);
       btn.setImageBitmap(bitmapScale(img, dip2px(50), dip2px(50)));
-      btn.setLayoutParams(LayoutParams(ScreenWidth / 8, ScreenHeight / 8))
+      btn.setLayoutParams(LayoutParams(ScreenWidth / 6, ScreenHeight / 6))
       Layout.addView(btn);
       P_window.setContentView(Layout);
       P_window.setWidth(width);
@@ -113,13 +114,13 @@ function FloatButton(P_window, img, x, y, width, height, callback) {
 function MakeMenu(){
 
 }
-var MAIN_GUI;
+var MAIN_GUI = new PopupWindow()
 var SHOW = true;
 FloatButton(MAIN_GUI, logo, 0, 0 , 200, 200, function(){
   print("Test")
 });
 
-var HIDDEN_BTN;
+var HIDDEN_BTN = new PopupWindow()
 FloatButton(HIDDEN_BTN, shell, 10, 10, 200, 200, function(){
   if(SHOW){
     MAIN_GUI.dismiss();
