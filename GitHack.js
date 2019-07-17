@@ -55,65 +55,60 @@ function FloatButton(btn, img, x, y, width, height, callback) {
 	Context.runOnUiThread(new java.lang.Runnable() {
 		run: function() {
 			//PopupWindow:
-			try {
-				var P_window = new PopupWindow();
-				var Layout = new RelativeLayout(Context)
-				btn = new ImageView(Context);
-				btn.setImageBitmap(bitmapScale(img, dip2px(50), dip2px(50)));
-				btn.setLayoutParams(LayoutParams(ScreenWidth / 8, ScreenHeight / 8))
-				Layout.addView(btn);
-				P_window.setContentView(Layout);
-				P_window.setWidth(width);
-				P_window.setHeight(height);
-				P_window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-				P_window.showAtLocation(Context.getWindow().getDecorView(), android.view.Gravity.CENTER, x, y);
-				btn.setOnClickListener(new View.OnClickListener() {
-					onClick: function(v) {
-						try {
-							callback(undefined, v)
-						} catch (e) {
-							callback(e)
-						}
+      try{
+			var P_window = new PopupWindow();
+      var Layout = new RelativeLayout(Context)
+      btn = new ImageView(Context);
+      btn.setImageBitmap(bitmapScale(img, dip2px(50), dip2px(50)));
+      btn.setLayoutParams(LayoutParams(ScreenWidth / 8, ScreenHeight / 8))
+      Layout.addView(btn);
+      P_window.setContentView(Layout);
+      P_window.setWidth(width);
+      P_window.setHeight(height);
+      P_window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+			P_window.showAtLocation(Context.getWindow().getDecorView(), android.view.Gravity.CENTER, x, y);
+			btn.setOnClickListener(new View.OnClickListener() {
+				onClick: function(v) {
+					try {
+						callback()
+					} catch (e) {
+						print(e)
 					}
-				});
-				var offsetX = 0,
-					offsetY = 0;
-				var _x = 0,
-					_y = 0;
-				btn.setOnTouchListener(new View.OnTouchListener() {
-					onTouch: function(v, e) {
-						if (move) {
-							switch (e.getAction()) {
-							case 0:
-								offsetX = e.getX();
-								offsetY = e.getY();
-								break;
-							case 2:
-								_x += (e.getX() - offsetX) / 2;
-								_y += (e.getY() - offsetY) / 2;
-								_x = Math.min(ScreenWidth / 2 - width / 2, _x);
-								_x = Math.max(-ScreenWidth / 2 + width / 2, _x);
-								_y = Math.min(ScreenHeight / 2 - height / 2, _y);
-								_y = Math.max(-ScreenHeight / 2 + height / 2, _y);
-								P_window.update(_x, _y, -1, -1);
-								break;
-							case 1:
-								break
-							}
+				}
+			});
+      var offsetX = 0, offsetY = 0;
+      var _x = 0,  _y = 0;
+			btn.setOnTouchListener(new View.OnTouchListener() {
+				onTouch: function(v, e) {
+						switch (e.getAction()) {
+						case 0:
+							offsetX = e.getX();
+							offsetY = e.getY();
+							break;
+						case 2:
+							_x += (e.getX() - offsetX) / 2;
+							_y += (e.getY() - offsetY) / 2;
+							_x = Math.min(ScreenWidth / 2 - width / 2, _x);
+							_x = Math.max(-ScreenWidth / 2 + width / 2, _x);
+							_y = Math.min(ScreenHeight / 2 - height / 2, _y);
+							_y = Math.max(-ScreenHeight / 2 + height / 2, _y);
+							P_window.update(_x, _y, -1, -1);
+							break;
+						case 1:
+							break
 						}
-						return false;
-						return true;
-					}
-				});
-			} catch (e) {
-				print(e)
-			}
+					return false;
+					return true;
+				}
+			});
+    }catch(e){
+      print(e)
+    }
 		}
 	});
 }
 
 var MAIN_GUI;
-FloatButton(MAIN_GUI, logo, 0, 0, 200, 200, function() {
-	print("Test")
+FloatButton(MAIN_GUI, logo, 0, 0 , 200, 200, function(){
+  print("Test")
 });
-print("Successful")
