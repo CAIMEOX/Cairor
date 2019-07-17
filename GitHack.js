@@ -54,12 +54,15 @@ function bitmapScale(bitmap, x, y) {
 function FloatButton(btn, img, x, y, width, height, callback) {
 	Context.runOnUiThread(new java.lang.Runnable() {
 		run: function() {
-			var v = new LinearLayout(Context);
+			// var v = new LinearLayout(Context);
 			btn = new ImageButton(Context);
 			btn.setImageBitmap(bitmapScale(img, dip2px(50), dip2px(50)));
-			v.addView(btn);
-			var P_window = new PopupWindow(v, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			// v.addView(btn);
+			var P_window = new PopupWindow();
+      P_window.setWidth(width);
+      P_window.setHeight(height);
       P_window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+      P_window.setContentView(btn);
 			P_window.showAtLocation(Context.getWindow().getDecorView(), android.view.Gravity.CENTER, x, y);
 			btn.setOnClickListener(new View.OnClickListener() {
 				onClick: function(v) {
@@ -105,3 +108,5 @@ var MAIN_GUI;
 FloatButton(MAIN_GUI, logo, 0, 0 , 200, 200, function(){
   print("Test")
 });
+print("Successful")
+ssss
