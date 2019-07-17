@@ -132,7 +132,9 @@ function FloatButton(P_window, img, x, y, width, height, callback) {
 }
 
 //Function Button
-var move = true;   //Allow to move button
+   //Allow to move button
+
+var move = true;
 function MainButton(P_window, img, x, y, width, height, callback) {
 	Context.runOnUiThread(new java.lang.Runnable() {
 		run: function() {
@@ -160,7 +162,6 @@ function MainButton(P_window, img, x, y, width, height, callback) {
       var _x = 0,  _y = 0;
 			btn.setOnTouchListener(new View.OnTouchListener() {
 				onTouch: function(v, e) {
-          if(move){
             switch (e.getAction()) {
 						case 0:
 							offsetX = e.getX();
@@ -173,14 +174,13 @@ function MainButton(P_window, img, x, y, width, height, callback) {
 							_x = Math.max(-ScreenWidth / 2 + width / 2, _x);
 							_y = Math.min(ScreenHeight / 2 - height / 2, _y);
 							_y = Math.max(-ScreenHeight / 2 + height / 2, _y);
-							P_window.update(_x, _y, -1, -1);
+							if(move){P_window.update(_x, _y, -1, -1)}
 							break;
 						case 1:
 							break
 						}
 					return false;
 					return true;
-          }
 				}
 			});
     }catch(e){
