@@ -257,8 +257,13 @@ function MakeMainMenu(){
 				menuLayout1.setOrientation(1);
 				menuScroll.addView(menuLayout);
 				menuLayout1.addView(menuScroll);
-				menuLayout.addView(Up);
-				menu = new PopupWindow(menuLayout1, ScreenWidth / 3, ScreenHeight;
+				var name = new TextView(ctx);
+				name.setTextSize(23);
+				name.setText("CAIROR JS");
+				name.setTextColor(Color.RED);
+				name.setGravity(Gravity.CENTER);
+				menuLayout.addView(name);
+				menu = new PopupWindow(menuLayout1, ScreenWidth / 3, ScreenHeight)
 				menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 			}catch(e){
 				print(e)
