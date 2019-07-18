@@ -242,22 +242,28 @@ MainButton(DigSpeed, digspeed, 0, 0, 200, 200, function(){
 });
 
 var Enchanter = new PopupWindow()
-MainButton(Enchanter, enchant, 50, 50 ,200 ,200 function(){
+MainButton(Enchanter, enchant, 50, 50 ,200 ,200, function(){
 	EnchantAll()
 });
 
 function MakeMainMenu(){
 	Context.runOnUiThread(new java.lang.Runnable() {
-		var menuLayout = new LinearLayout(Context);
-		var menuScroll = new ScrollView(Context);
-		var menuLayout1 = new LinearLayout(Context);
-		menuLayout.setOrientation(1);
-		menuLayout1.setOrientation(1);
-		menuScroll.addView(menuLayout);
-		menuLayout1.addView(menuScroll);
-		menu = new PopupWindow(menuLayout1, ScreenWidth / 3, ScreenHeight;
-		menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		menuLayout.addView(Up);
+		run: function(){
+			try{
+				var menuLayout = new LinearLayout(Context);
+				var menuScroll = new ScrollView(Context);
+				var menuLayout1 = new LinearLayout(Context);
+				menuLayout.setOrientation(1);
+				menuLayout1.setOrientation(1);
+				menuScroll.addView(menuLayout);
+				menuLayout1.addView(menuScroll);
+				menuLayout.addView(Up);
+				menu = new PopupWindow(menuLayout1, ScreenWidth / 3, ScreenHeight;
+				menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+			}catch(e){
+				print(e)
+			}
+		}
 	});
 }
 
