@@ -1,6 +1,7 @@
 var View = android.view.View;
 var String = java.lang.String;
 var Integer = java.lang.Integer;
+var Typeface = android.graphics.Typeface;
 
 var LinearLayout = android.widget.LinearLayout;
 var Runnable = java.lang.Runnable;
@@ -312,7 +313,9 @@ function MakeMainMenu(){
 
 			var creative = new Button(Context);
 			creative.setText("Creative");
-			creative.setTextColor(Color.BLACK);
+			creative.setTextColor(Color.WHITE);
+			creative.setBackground(Color.BLUE);
+			creative.setTypeface(creative.getTypeface(), Typeface.BOLD);
 			creative.setOnClickListener(new View.OnClickListener({
 				onClick: function(viewarg){
 					Level.setGameMode(1);
