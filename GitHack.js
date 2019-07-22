@@ -255,7 +255,9 @@ MainButton(Enchanter, enchant, 50, 50 ,200 ,200,  function(){
 });
 
 //===============Menu=================
-function TpMenu(callback){
+function TpMenu(){
+	Context.runOnUiThread(new java.lang.Runnable() {
+		run: function() {
 			var menuLayout = new LinearLayout(Context);
 			var menuScroll = new ScrollView(Context);
 			var menuLayout1 = new LinearLayout(Context);
@@ -265,35 +267,50 @@ function TpMenu(callback){
 			menuLayout1.addView(menuScroll);
 
 			var exit = new Button(Context)
-			exit.setText("Exit")
+			exit.setText("Reload")
 			exit.setTextColor(Color.RED)
 			extt.setBackgroundColor(Color.WHITE)
 			exit.setOnClickListener(new View.OnClickListener({
 				onClick: function(v){
-					TP_Menu.dismiss()
+					menuLayout.removeAllViews();
+					var PlayerList = Server.getAllPlayers();
+					for (var p of PlayerList){
+						var Name = Player.getName(p)
+						var Btn = new Button(Context)
+						Btn.setText(Name)
+						Btn.setTextColor(Color.BLACK)
+						Btn.setBackgroundColor(Color.WHITE)
+						Btn.setOnClickListener(new View.OnClickListener({
+							onClick: function(v){
+								Entity.setPosition(getPlayerEnt(),Player.getX(p),Player.getY(p),Player.getZ(p))
+							}
+						}));
+						menuLayout.addView(Btn);
+					}
 				}
 			}));
 			menuLayout.addView(exit)
 
 
 			var PlayerList = Server.getAllPlayers();
-			for (var p = 0 ; p < PlayerList.length ; p++){
-				var Name = Player.getName(PlayerList[p])
+			for (var p of PlayerList){
+				var Name = Player.getName(p)
 				var Btn = new Button(Context)
 				Btn.setText(Name)
 				Btn.setTextColor(Color.BLACK)
 				Btn.setBackgroundColor(Color.WHITE)
 				Btn.setOnClickListener(new View.OnClickListener({
 					onClick: function(v){
-						callback(PlayerList[p])
+						Entity.setPosition(getPlayerEnt(),Player.getX(p),Player.getY(p),Player.getZ(p))
 					}
 				}));
 				menuLayout.addView(Btn);
 			}
 
-			TP_Menu = new PopupWindow(menuLayout1, ScreenWidth / 4, ScreenHeight);
-			TP_Menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-			return TP_Menu;
+			tpmenu = new PopupWindow(menuLayout1, ScreenWidth / 4, ScreenHeight);
+			tpmenu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		}
+	});
 }
 
 function MakeMainMenu(){
@@ -367,10 +384,13 @@ function MakeMainMenu(){
 			sneak_attack.setTextColor(Color.BLACK)
 			sneak_attack.setOnClickListener(new View.OnClickListener({
 				onClick: function(v){
-					SneakAttackMenu = TpMenu(function(p){
-						Entity.setPosition(getPlayerEnt(),Player.getX(p),Player.getY(p),Player.getZ(p))
-					});
-					SneakAttackMenu.showAtLocation(Context.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
+					if(showtpmenu){
+						showtpmenu = false;
+						tpmenu.dismiss();
+					}else{
+						showtpmenu = true;
+						tpmenu.showAtLocation(Context.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
+					}
 				}
 			}));
 			menuLayout.addView(sneak_attack)
@@ -421,7 +441,8 @@ function MakeMainMenu(){
 //Main Button and Menu
 var menu, showMenu = false;
 MakeMainMenu();
-
+var tpmenu, showtpmenu = false;
+TpMenu();
 var MAIN_GUI = new PopupWindow()
 var config = {
   show:true,
