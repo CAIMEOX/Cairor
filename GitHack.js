@@ -255,10 +255,7 @@ MainButton(Enchanter, enchant, 50, 50 ,200 ,200,  function(){
 });
 
 //===============Menu=================
-var TpMenu;
-function TpMenu(TP_Menu,callback){
-	Context.runOnUiThread(new java.lang.Runnable() {
-		run: function() {
+function TpMenu(callback){
 			var menuLayout = new LinearLayout(Context);
 			var menuScroll = new ScrollView(Context);
 			var menuLayout1 = new LinearLayout(Context);
@@ -274,22 +271,21 @@ function TpMenu(TP_Menu,callback){
 			exit.setOnClickListener(new View.OnClickListener({
 				onClick: function(v){
 					TP_Menu.dismiss()
-					TpMenu = null;
 				}
 			}));
 			menuLayout.addView(exit)
 
 
 			var PlayerList = Server.getAllPlayers();
-			for (var p of PlayerList){
-				var Name = Player.getName(p)
+			for (var p = 0 ; p < PlayerList.length ; p++){
+				var Name = Player.getName(PlayerList[p])
 				var Btn = new Button(Context)
 				Btn.setText(Name)
 				Btn.setTextColor(Color.BLACK)
 				Btn.setBackgroundColor(Color.WHITE)
 				Btn.setOnClickListener(new View.OnClickListener({
 					onClick: function(v){
-						callback(p)
+						callback(PlayerList[p])
 					}
 				}));
 				menuLayout.addView(Btn);
@@ -297,9 +293,7 @@ function TpMenu(TP_Menu,callback){
 
 			TP_Menu = new PopupWindow(menuLayout1, ScreenWidth / 4, ScreenHeight);
 			TP_Menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-			TpMenu = TP_Menu;
-		}
-	});
+			return TP_Menu;
 }
 
 function MakeMainMenu(){
@@ -373,12 +367,13 @@ function MakeMainMenu(){
 			sneak_attack.setTextColor(Color.BLACK)
 			sneak_attack.setOnClickListener(new View.OnClickListener({
 				onClick: function(v){
-					TpMenu(function(p){
+					SneakAttackMenu = TpMenu(function(p){
 						Entity.setPosition(getPlayerEnt(),Player.getX(p),Player.getY(p),Player.getZ(p))
 					});
-					TpMenu.showAtLocation(Context.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
+					SneakAttackMenu.showAtLocation(Context.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
 				}
 			}));
+			menuLayout.addView(sneak_attack)
 
 			var fly = new Button(Context)
 			fly.setText("Fly")
@@ -392,6 +387,7 @@ function MakeMainMenu(){
 				}
 			}));
 			menuLayout.addView(fly)
+
 
 			var setHome = new Button(Context)
 			setHome.setText("Set Home")
